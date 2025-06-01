@@ -1,230 +1,270 @@
-import { notFound } from "next/navigation"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
-import { Clock, Users, Star, PlayCircle, CheckCircle, Lock } from "lucide-react"
-import { getServerSession } from "next-auth/next"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cybersecurity Full Course</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+    }
+    .module {
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .header {
+      background: #f0f0f0;
+      padding: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    .header span {
+      margin-right: 8px;
+    }
+    .content {
+      display: none;
+      padding: 10px;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 8px 12px;
+      background: #007bff;
+      color: #fff;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+    iframe {
+      width: 100%;
+      height: 360px;
+      border: none;
+      border-radius: 8px;
+      margin-top: 8px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
 
-// This would typically come from a database
-const courseData = {
-  "ethical-hacking-fundamentals": {
-    id: 1,
-    title: "Ethical Hacking Fundamentals",
-    description:
-      "Learn the basics of ethical hacking and penetration testing with hands-on labs and real-world scenarios. This comprehensive course covers everything from reconnaissance to reporting vulnerabilities.",
-    price: 49.99,
-    level: "Beginner",
-    duration: "8 hours",
-    students: 1250,
-    rating: 4.8,
-    reviews: 156,
-    image: "/placeholder.svg?height=400&width=800",
-    instructor: "John Smith",
-    instructorBio: "Certified Ethical Hacker with 10+ years of experience in cybersecurity",
-    whatYouWillLearn: [
-      "Fundamentals of ethical hacking and penetration testing",
-      "Information gathering and reconnaissance techniques",
-      "Vulnerability assessment and exploitation",
-      "Network scanning and enumeration",
-      "Web application security testing",
-      "Reporting and documentation best practices",
-    ],
-    curriculum: [
-      {
-        title: "Introduction to Ethical Hacking",
-        lessons: [
-          { title: "What is Ethical Hacking?", duration: "15 min", completed: false },
-          { title: "Legal and Ethical Considerations", duration: "20 min", completed: false },
-          { title: "Setting Up Your Lab Environment", duration: "30 min", completed: false },
-        ],
-      },
-      {
-        title: "Information Gathering",
-        lessons: [
-          { title: "Passive Reconnaissance", duration: "25 min", completed: false },
-          { title: "Active Reconnaissance", duration: "30 min", completed: false },
-          { title: "Social Engineering Basics", duration: "20 min", completed: false },
-        ],
-      },
-      {
-        title: "Vulnerability Assessment",
-        lessons: [
-          { title: "Network Scanning with Nmap", duration: "35 min", completed: false },
-          { title: "Vulnerability Scanners", duration: "25 min", completed: false },
-          { title: "Manual Testing Techniques", duration: "40 min", completed: false },
-        ],
-      },
-    ],
-  },
-}
-
-export default async function CourseDetailPage({ params }: { params: { slug: string } }) {
-  const session = await getServerSession(authOptions)
-  const course = courseData[params.slug as keyof typeof courseData]
-
-  if (!course) {
-    notFound()
+<script>
+  function toggleContent(header) {
+    const content = header.nextElementSibling;
+    if (content.style.display === 'block') {
+      content.style.display = 'none';
+    } else {
+      document.querySelectorAll('.content').forEach(c => (c.style.display = 'none'));
+      document.querySelectorAll('iframe').forEach(i => (i.style.display = 'none'));
+      content.style.display = 'block';
+    }
   }
 
-  // Check if user has purchased this course (mock data)
-  const hasPurchased = false
+  function loadAndShowVideo(btn, url) {
+    const iframe = btn.nextElementSibling;
+    iframe.src = url;
+    iframe.style.display = 'block';
+    btn.style.display = 'none';
+  }
+</script>
 
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="grid gap-8 lg:grid-cols-3">
-        {/* Main Content */}
-        <div className="lg:col-span-2 space-y-8">
-          <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <Badge variant="outline">{course.level}</Badge>
-              <span className="text-sm text-muted-foreground">{course.duration}</span>
-            </div>
-            <h1 className="text-4xl font-bold tracking-tight">{course.title}</h1>
-            <p className="text-xl text-muted-foreground">{course.description}</p>
+<!-- শুরু: ভিডিও মডিউল -->
 
-            <div className="flex items-center gap-6 text-sm">
-              <div className="flex items-center gap-1">
-                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                <span className="font-medium">{course.rating}</span>
-                <span className="text-muted-foreground">({course.reviews} reviews)</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Users className="h-4 w-4" />
-                <span>{course.students} students</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Clock className="h-4 w-4" />
-                <span>{course.duration}</span>
-              </div>
-            </div>
-          </div>
+<div class="module">
+  <div class="header" onclick="toggleContent(this)"><span>▶️</span> Termux Setup</div>
+  <div class="content">
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/16YbN7XErgNg8TZj_v3mSkSkJpt-45epo/preview')">▶️ Watch Video</button>
+    <iframe allowfullscreen></iframe>
+  </div>
+</div>
 
-          <div className="aspect-video w-full overflow-hidden rounded-lg">
-            <img src={course.image || "/placeholder.svg"} alt={course.title} className="object-cover w-full h-full" />
-          </div>
+<div class="module">
+  <div class="header" onclick="toggleContent(this)"><span>▶️</span> Termux Full Tutorial</div>
+  <div class="content">
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/16EOap2RtbMgHpN3Ovr7zhXWYAhvwbAWv/preview')">▶️ Class 1</button>
+    <iframe allowfullscreen></iframe>
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/16KEXIFfUKYmiwa6rd9qsLmoecIjkhM4e/preview')">▶️ Class 2</button>
+    <iframe allowfullscreen></iframe>
+  </div>
+</div>
 
-          {/* What You'll Learn */}
-          <Card>
-            <CardHeader>
-              <CardTitle>What you'll learn</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-3 md:grid-cols-2">
-                {course.whatYouWillLearn.map((item, index) => (
-                  <div key={index} className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm">{item}</span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+<div class="module">
+  <div class="header" onclick="toggleContent(this)"><span>▶️</span> Email Bombing</div>
+  <div class="content">
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/13NifAYqDFJWAj_FJFphL6aFaE12ZP--Y/preview')">▶️ Kali Linux</button>
+    <iframe allowfullscreen></iframe>
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/13cURG5yx8xwI66kxXyJcrVA63Yy72zSn/preview')">▶️ Android</button>
+    <iframe allowfullscreen></iframe>
+  </div>
+</div>
 
-          {/* Course Curriculum */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Course Curriculum</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {course.curriculum.map((section, sectionIndex) => (
-                <div key={sectionIndex} className="space-y-2">
-                  <h3 className="font-semibold">{section.title}</h3>
-                  <div className="space-y-1">
-                    {section.lessons.map((lesson, lessonIndex) => (
-                      <div key={lessonIndex} className="flex items-center justify-between p-3 rounded-lg border">
-                        <div className="flex items-center gap-3">
-                          {hasPurchased ? (
-                            <PlayCircle className="h-4 w-4 text-primary" />
-                          ) : (
-                            <Lock className="h-4 w-4 text-muted-foreground" />
-                          )}
-                          <span className="text-sm">{lesson.title}</span>
-                        </div>
-                        <span className="text-sm text-muted-foreground">{lesson.duration}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
+<div class="module">
+  <div class="header" onclick="toggleContent(this)"><span>▶️</span> Facebook ID Disable</div>
+  <div class="content">
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/14Rctra-L8IxUqSARpvU_OyCsvY_UNhc1/preview')">▶️ How to Disable</button>
+    <iframe allowfullscreen></iframe>
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/14ULYr9s8mrx2XEVCKlqNwD6ExwX926eh/preview')">▶️ Edited Version</button>
+    <iframe allowfullscreen></iframe>
+  </div>
+</div>
 
-          {/* Instructor */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Instructor</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-start gap-4">
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
-                  <span className="text-xl font-bold">{course.instructor.charAt(0)}</span>
-                </div>
-                <div>
-                  <h3 className="font-semibold">{course.instructor}</h3>
-                  <p className="text-sm text-muted-foreground">{course.instructorBio}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+<div class="module">
+  <div class="header" onclick="toggleContent(this)"><span>▶️</span> Social Media Hacking</div>
+  <div class="content">
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/16D2un_1UuftaPPM9J0Q9gh7jLk2qGEnM/preview')">▶️ What is Phishing?</button>
+    <iframe allowfullscreen></iframe>
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/1645lYmdYlbl5HJ2a3XnZSGqOStoItuC3/preview')">▶️ Create Phishing Page</button>
+    <iframe allowfullscreen></iframe>
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/1685rY-SS97PBLjurwBOxSS0wGXuuHgjC/preview')">▶️ Advanced Phishing Attack</button>
+    <iframe allowfullscreen></iframe>
+  </div>
+</div>
 
-        {/* Sidebar */}
-        <div className="space-y-6">
-          <Card>
-            <CardContent className="p-6">
-              <div className="space-y-4">
-                <div className="text-center">
-                  <div className="text-3xl font-bold">${course.price}</div>
-                  <div className="text-sm text-muted-foreground">One-time payment</div>
-                </div>
+<div class="module">
+  <div class="header" onclick="toggleContent(this)"><span>▶️</span> WiFi Hack</div>
+  <div class="content">
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/16hEiMfDiwYcI6iJKkNRF5mS0Du2GPh0J/preview')">▶️ Hack Router Admin Panel</button>
+    <iframe allowfullscreen></iframe>
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/16kUk29yPtxniC8Qj8MNDrqs2DDhWIYZm/preview')">▶️ Config.bin File</button>
+    <iframe allowfullscreen></iframe>
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/16lb-Sbg7KBYrqnFdaOO3lLzr4S7sMg26/preview')">▶️ Advanced WiFi Phishing</button>
+    <iframe allowfullscreen></iframe>
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/16lf-Sbg7KBYrqnFdaOO3lLzr4S7sMg26/preview')">▶️ Hack TP-Link & Others</button>
+    <iframe allowfullscreen></iframe>
+  </div>
+</div>
 
-                {session ? (
-                  hasPurchased ? (
-                    <Button className="w-full" size="lg">
-                      Continue Learning
-                    </Button>
-                  ) : (
-                    <Button className="w-full" size="lg">
-                      Enroll Now
-                    </Button>
-                  )
-                ) : (
-                  <Button className="w-full" size="lg" asChild>
-                    <a href="/auth/login">Login to Enroll</a>
-                  </Button>
-                )}
+<div class="module">
+  <div class="header" onclick="toggleContent(this)"><span>▶️</span> Android Hack</div>
+  <div class="content">
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/130cLLIJiAO-njGVCyB-5gvxbKq5lhkj0/preview')">▶️ Install Metasploit & Hack Android</button>
+    <iframe allowfullscreen></iframe>
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/12rY6iK_6KgVcH1rgBPMJmH65ldbxd0fq/preview')">▶️ Undetectable Keylogger</button>
+    <iframe allowfullscreen></iframe>
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/12oorDua7hX5xO_p9rB-InOneSH8vdDTn/preview')">▶️ Hack Android via IP</button>
+    <iframe allowfullscreen></iframe>
+  </div>
+</div>
 
-                <Separator />
+<div class="module">
+  <div class="header" onclick="toggleContent(this)"><span>▶️</span> Keylogger Full Course</div>
+  <div class="content">
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/15HDV5V5rPaSB8xTyhGeymYwX6qHmh1AW/preview')">▶️ Watch Video</button>
+    <iframe allowfullscreen></iframe>
+  </div>
+</div>
 
-                <div className="space-y-3 text-sm">
-                  <div className="flex justify-between">
-                    <span>Duration:</span>
-                    <span>{course.duration}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Level:</span>
-                    <span>{course.level}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Students:</span>
-                    <span>{course.students}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Certificate:</span>
-                    <span>Yes</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Lifetime Access:</span>
-                    <span>Yes</span>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </div>
-  )
-}
+<div class="module">
+  <div class="header" onclick="toggleContent(this)"><span>▶️</span> Facebook Hack</div>
+  <div class="content">
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/13sSEDRcAy84Y6EngKC_jxwimTVOVyMwH/preview')">▶️ Recover Facebook Account</button>
+    <iframe allowfullscreen></iframe>
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/13vcsolABBatsTW2aFCdtWJ2iTE3bNfyY/preview')">▶️ Use Hacking App</button>
+    <iframe allowfullscreen></iframe>
+  </div>
+</div>
+
+<div class="module">
+  <div class="header" onclick="toggleContent(this)"><span>▶️</span> Imo Hack</div>
+  <div class="content">
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/14sjrGWxSzTCZKDXgFp5NqeFjpAeQdVss/preview')">▶️ Watch Video</button>
+    <iframe allowfullscreen></iframe>
+  </div>
+</div>
+
+<div class="module">
+  <div class="header" onclick="toggleContent(this)"><span>▶️</span> Gmail Hack</div>
+  <div class="content">
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/14bXHWIV6JlA6CSdcD_mGwKrZI9ocUFXF/preview')">▶️ Watch Video</button>
+    <iframe allowfullscreen></iframe>
+  </div>
+</div>
+
+<div class="module">
+  <div class="header" onclick="toggleContent(this)"><span>▶️</span> Instagram Hack</div>
+  <div class="content">
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/15H1LsfZe9-QpP4wkDRBoXad6N1vMJGYP/preview')">▶️ Watch Video</button>
+    <iframe allowfullscreen></iframe>
+  </div>
+</div>
+
+<div class="module">
+  <div class="header" onclick="toggleContent(this)"><span>▶️</span> Website Hack</div>
+  <div class="content">
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/16epapFtT1Xe2FlTdVC4OC48bLo6epl_K/preview')">▶️ Watch Video</button>
+    <iframe allowfullscreen></iframe>
+  </div>
+</div>
+
+<div class="module">
+  <div class="header" onclick="toggleContent(this)"><span>▶️</span> CCTV Hack</div>
+  <div class="content">
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/13EIna_mnkg-3dQ305jsooD7OMiOPs7uQ/preview')">▶️ Watch Video</button>
+    <iframe allowfullscreen></iframe>
+  </div>
+</div>
+
+<div class="module">
+  <div class="header" onclick="toggleContent(this)"><span>▶️</span> Social Engineering</div>
+  <div class="content">
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/15fC8pfglqsdj5v69TgX0PCaRU9RxmmW0/preview')">▶️ Watch Video</button>
+    <iframe allowfullscreen></iframe>
+  </div>
+</div>
+
+<div class="module">
+  <div class="header" onclick="toggleContent(this)"><span>▶️</span> Email Spoofing</div>
+  <div class="content">
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/13lX9gfchfp5iEYsDopgl_cpkBGnOqVez/preview')">▶️ Watch Video</button>
+    <iframe allowfullscreen></iframe>
+  </div>
+</div>
+
+<div class="module">
+  <div class="header" onclick="toggleContent(this)"><span>▶️</span> Location Tracking</div>
+  <div class="content">
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/15QwkRlOHN0Ll6dBXfU8GWuqZmHCJg3th/preview')">▶️ Location tracker</button>
+    <iframe allowfullscreen></iframe>
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/15Uy2IqF1a2fvaHc7ZfxkicDuU1wcfARZ/preview')">▶️ Track Anyone's Location</button>
+    <iframe allowfullscreen></iframe>
+  </div>
+</div>
+
+<div class="module">
+  <div class="header" onclick="toggleContent(this)"><span>▶️</span> Session Hijacking Attack</div>
+  <div class="content">
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/14kYe9c-VAtjksz_JVgkD8-TZQK80o3Xp/preview')">▶️ Watch Video</button>
+    <iframe allowfullscreen></iframe>
+  </div>
+</div>
+
+<div class="module">
+  <div class="header" onclick="toggleContent(this)"><span>▶️</span> Hacking Tips And Tricks</div>
+  <div class="content">
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/14hbrdG9y5E0IbpC4AUr2uJKX9orJxYGH/preview')">▶️ Watch Video</button>
+    <iframe allowfullscreen></iframe>
+  </div>
+</div>
+
+<div class="module">
+  <div class="header" onclick="toggleContent(this)"><span>▶️</span> Root/Unroot Device</div>
+  <div class="content">
+    <button class="btn" onclick="loadAndShowVideo(this, 'https://drive.google.com/file/d/15YG8k9sgoKgVeuXfOvmVtPvnVrCV8ait/preview')">▶️ Watch Video</button>
+    <iframe allowfullscreen></iframe>
+  </div>
+</div>
+
+<!-- সব শেষ -->
+
+</body>
+</html>
