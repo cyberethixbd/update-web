@@ -10,13 +10,13 @@ import { Search } from "lucide-react"
 const courses = [
   {
     id: 1,
-    title: "Ethical Hacking Fundamentals",
+    title: "Ethical Hacking Basic Course",
     description:
-      "Learn the basics of ethical hacking and penetration testing with hands-on labs and real-world scenarios.",
-    price: 49.99,
+      "Gift From Cyber Ethix BD. Learn the basics of ethical hacking and penetration testing with hands-on labs and real-world scenarios.",
+    price: Gift,
     level: "Beginner",
     duration: "8 hours",
-    students: 1250,
+    students: 94,
     rating: 4.8,
     image: "/placeholder.svg?height=200&width=400",
     slug: "ethical-hacking-fundamentals",
